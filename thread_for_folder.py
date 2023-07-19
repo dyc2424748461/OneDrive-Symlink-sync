@@ -1,3 +1,6 @@
+import win32con
+import win32file
+
 from recreate_symlink import notify_system_change as update_file
 import os
 import threading
@@ -13,17 +16,12 @@ def check_folder_links(folder_path):
     :return:
     '''
     for item in os.listdir(folder_path):
-        # print(item)
         item_path = os.path.join(folder_path, item)
-        print(item_path)
-        try:
-            os.readlink(item_path)
-
-            # 开启一个线程进行监听这个文件夹 ps:软链接文件夹不能过多，否则影响性能
+        if is_symlink(item_path) \
+                and os.path.exists(os.readlink(item_path))\
+                and os.path.isdir(item_path):
+        # 开启一个线程进行监听这个文件夹 ps:软链接文件夹不能过多，否则影响性能
             thread_work(item_path)
-            print(f"{item_path} is a symbolic link.")
-        except Exception as e:
-            print(e)
 
 def thread_work(smlink_folder_path):
     # 创建多个线程来执行监控任务
@@ -31,6 +29,9 @@ def thread_work(smlink_folder_path):
     threads.append(thread)
     thread.start()
 
+def is_symlink(path):
+    attrs = win32file.GetFileAttributes(path)
+    return attrs & win32con.FILE_ATTRIBUTE_REPARSE_POINT == win32con.FILE_ATTRIBUTE_REPARSE_POINT
 
 def monitor(foler):
 
