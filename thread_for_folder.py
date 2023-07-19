@@ -15,6 +15,10 @@ def check_folder_links(folder_path):
     :param folder_path:
     :return:
     '''
+    if not os.path.isdir(folder_path) :
+        output=folder_path + " is not a folder"
+        print(output)
+        return
     for item in os.listdir(folder_path):
         item_path = os.path.join(folder_path, item)
         if is_symlink(item_path) \
@@ -33,9 +37,11 @@ def is_symlink(path):
     attrs = win32file.GetFileAttributes(path)
     return attrs & win32con.FILE_ATTRIBUTE_REPARSE_POINT == win32con.FILE_ATTRIBUTE_REPARSE_POINT
 
-def monitor(foler):
+def monitor(folder):
 
-    check_folder_links(foler)
+    check_folder_links(folder)
+    for thread in threads:
+        thread.join()
 
     print("Monitoring threads have finished")
 

@@ -1,5 +1,14 @@
+import sys
+
 from thread_for_folder import monitor
+class MyException(Exception):
+    def __init__(self, message):
+        self.message = message
 
 if __name__ == "__main__":
-    folder = r"C:\Users\O-c-O\OneDrive\up" # onedrive中你放入软链接的文件夹 此文件夹无软链接
-    monitor(folder)# 开始监听文件变化
+    if len(sys.argv) > 1:
+        for folder in sys.argv[1:]:
+            monitor(folder)# 开始监听文件变化
+            # print(folder)
+    else:
+        raise MyException("need one argument ")
