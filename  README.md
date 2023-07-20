@@ -1,6 +1,7 @@
 #  syncForOneDrive
 
-使用替换符号链接的方式，提醒OneDrive进行更新。
+使用替换目录链接的方式，提醒OneDrive进行更新。
+> mklink /j link source
 
 ## 条件
 
@@ -77,3 +78,9 @@ winsw install
 winsw start
 ```
 
+
+# 注意
+程序仅仅模仿了检测文件夹内的文件内容是否发生变化，若发生变化则重建目录链接。
+    扩展了：
+        - 开机自启
+        - 每一个目录链接一个线程
