@@ -1,4 +1,4 @@
-#  syncForOneDrive
+# syncForOneDrive
 
 使用替换目录链接的方式，提醒OneDrive进行更新。
 > mklink /j link source
