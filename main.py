@@ -6,7 +6,7 @@ if __name__ == "__main__":
     desc = "update symlink for OneDrive" # 程序的描述
     program_name = "recreate_symlin" # 自定义名字
     add_startup_registry_entry(program_name,desc) # 加入开机自启
-    folder = r"C:\Users\O-c-O\OneDrive\up" # onedrive中你放入软链接的文件夹 此文件夹无软链接
+    folder = r"C:\Users\O-c-O\OneDrive\up" # 软链接文件都应刚在此文件夹中
     monitor(folder)# 开始监听文件变化
 
     '''
