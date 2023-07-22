@@ -7,18 +7,20 @@ import subprocess
 class FolderEventHandler(FileSystemEventHandler):
     def __init__(self, symlink_path):
         self.symlink_path = symlink_path
+        self.event_occurred = False
 
     def on_any_event(self, event):
-        # 如果发生变化进行如下操作 ：对以前的软链接进行删除并重建
-        time.sleep(10)
-        target_folder = os.readlink(self.symlink_path)
-        os.unlink(self.symlink_path)
-        create_directory_link(target_folder,self.symlink_path)
-        print(f"Folder updated: {self.symlink_path}")
-        time.sleep(60)
+        self.event_occurred = True
+        # print(event)
 
-
-
+def recreate_symlink(symlink_path):
+    # 如果发生变化进行如下操作 ：对以前的软链接进行删除并重建
+    time.sleep(10)
+    target_folder = os.readlink(symlink_path)
+    os.unlink(symlink_path)
+    create_directory_link(target_folder,symlink_path)
+    print(f"Folder updated: {symlink_path}")
+    # time.sleep(60)
 
 def create_directory_link(source, link):
     # 创建目录链接
@@ -29,7 +31,8 @@ def create_directory_link(source, link):
 def notify_system_change(file_path):
     # 获取软链接的目标文件夹路径
     target_folder = os.readlink(file_path)
-    print(target_folder)
+    now_time=time.strftime("%Y-%m-%d %H:%I:%S", time.localtime( time.time() ) )
+    print(now_time,target_folder)
     # 创建Observer和EventHandler
     event_handler = FolderEventHandler(file_path)
     observer = Observer()
@@ -38,7 +41,10 @@ def notify_system_change(file_path):
 
     try:
         while True:
-            time.sleep(1)
+            if event_handler.event_occurred :
+                recreate_symlink(file_path)
+                time.sleep(60)
+                event_handler.event_occurred = False
     except KeyboardInterrupt:
         observer.stop()
 
