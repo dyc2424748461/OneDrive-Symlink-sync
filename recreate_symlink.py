@@ -41,6 +41,7 @@ def notify_system_change(file_path):
 
     try:
         while True:
+            time.sleep(10)
             if event_handler.event_occurred :
                 recreate_symlink(file_path)
                 time.sleep(60)
