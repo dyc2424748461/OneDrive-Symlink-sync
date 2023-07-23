@@ -45,6 +45,7 @@ def notify_system_change(file_path):
                 recreate_symlink(file_path)
                 time.sleep(60)
                 event_handler.event_occurred = False
+            time.sleep(10)
     except KeyboardInterrupt:
         observer.stop()
 
