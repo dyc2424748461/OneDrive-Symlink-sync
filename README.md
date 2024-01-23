@@ -1,9 +1,9 @@
 # syncForOneDrive
 
-使用替换目录链接的方式，提醒OneDrive进行更新。
-> mklink /j link source
+使用重命名目录链接的方式，提醒OneDrive进行更新。
+> mklink /j link source #创建软链接
 
-## 条件
+## 将需要建立软链接的文件夹统一放到一个目录中
 
 在OneDrive文件夹下应将软链接文件夹都放到一个文件夹中。
 
@@ -37,11 +37,11 @@
 
 1. 下载对应的winsw.exe、和.xml文件
 
-2. 将winsw.exe 和.xml文件放在`新的文件夹`下
+2. 将winsw.exe 和.xml文件放在`服务文件夹`下
 
-3. 修改xml或winsw.exe文件名,使得同名（这里使用winsw.*）
+3. 修改xml文件https://github.com/winsw/winsw?tab=readme-ov-file#use-winsw-as-a-bundled-tool
 
-   这里先简单使用sample-minimal.xml进行修改，
+   这里先简单使用sample-minimal.xml进行修改，在xml文件中修改的主要部分：
 
    - 指定运行main.py的python.exe，
    - 指定main_for_winswService.py文件地址。
@@ -69,18 +69,19 @@
    </service>
    ```
 
-然后在cmd中进入文件夹`新的文件夹`
+然后在cmd中进入文件夹`服务文件夹`
 
 执行命令 [winsw/winsw: A wrapper executable that can run any executable as a Windows service, in a permissive license. (github.com)](https://github.com/winsw/winsw#usage)
 
 ```
-winsw install
-winsw start
+winsw install xxx.xml
+winsw start xxx.xml
+winsw stop xxx.xml
 ```
 
 
 # 注意
-程序仅仅模仿了检测文件夹内的文件内容是否发生变化，若发生变化则重建目录链接。
+程序仅仅模仿了检测文件夹内的文件内容是否发生变化，若发生变化则重命名目录链接，重命名两次保持目录名称不变。
     扩展了：
-        - 开机自启
-        - 每一个目录链接一个线程
+   - 开机自启
+   - 一个目录链接一个线程
