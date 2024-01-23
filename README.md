@@ -39,7 +39,7 @@
 
 2. 将winsw.exe 和.xml文件放在`服务文件夹`下
 
-3. 修改xml文件https://github.com/winsw/winsw?tab=readme-ov-file#use-winsw-as-a-bundled-tool
+3. 修改xml文件https://github.com/winsw/winsw?tab=readme-ov-file#use-winsw-as-a-global-tool
 
    这里先简单使用sample-minimal.xml进行修改，在xml文件中修改的主要部分：
 
@@ -79,8 +79,14 @@ winsw start xxx.xml
 winsw stop xxx.xml
 ```
 
+### 或者使用winsw 将exe注册为服务
+
+https://github.com/winsw/winsw?tab=readme-ov-file#use-winsw-as-a-bundled-tool
+
+
 
 # 注意
+
 程序仅仅模仿了检测文件夹内的文件内容是否发生变化，若发生变化则重命名目录链接，重命名两次保持目录名称不变。
     扩展了：
    - 开机自启
