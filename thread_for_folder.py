@@ -1,7 +1,7 @@
 import win32con
 import win32file
 
-from recreate_symlink import notify_system_change as update_file
+from listenSymlink_do import notify_system_change as update_file
 import os
 import threading
 

@@ -10,22 +10,29 @@ class FolderEventHandler(FileSystemEventHandler):
         self.event_occurred = False
 
     def on_any_event(self, event):
+        # if event.event_type not in ['open', 'close']:  # 忽略 "打开" 和 "关闭" 事件
         self.event_occurred = True
         # print(event)
-
-def recreate_symlink(symlink_path):
-    # 如果发生变化进行如下操作 ：对以前的软链接进行删除并重建
+def rename_symlink(symlink_path):
+    # 如果发生变化进行如下操作 ：对以前的软链接进行重命名
     time.sleep(10)
-    target_folder = os.readlink(symlink_path)
-    os.unlink(symlink_path)
-    create_directory_link(target_folder,symlink_path)
+    # target_folder = os.readlink(symlink_path)
+    try:
+        directory, filename = os.path.split(symlink_path)
+        tmp =  '1_1'
+        tmp_name = os.path.join(directory, tmp)
+        os.rename(symlink_path, tmp_name)
+        os.rename(tmp_name,symlink_path)
+        print(f"successfully change name")
+    except Exception as e:
+        print(f"Error: {str(e)}")
     print(f"Folder updated: {symlink_path}")
     # time.sleep(60)
 
-def create_directory_link(source, link):
-    # 创建目录链接
-    cmd = f'mklink /j "{link}" "{source}"'
-    subprocess.run(cmd, shell=True)
+def do(symlink_path):
+    # 重命名文件夹
+    rename_symlink(symlink_path)
+
 
 
 def notify_system_change(file_path):
@@ -42,7 +49,7 @@ def notify_system_change(file_path):
     try:
         while True:
             if event_handler.event_occurred :
-                recreate_symlink(file_path)
+                do(file_path)
                 time.sleep(60)
                 event_handler.event_occurred = False
             time.sleep(10)
@@ -52,6 +59,6 @@ def notify_system_change(file_path):
     observer.join()
 
 if __name__ == "__main__":
-    d_folder = r"C:\Users\O-c-O\OneDrive - post.usts.edu.cn\test1"  # D文件夹软链接路径
+    d_folder = r"C:\Users\O-c-O\OneDrive - post.usts.edu.cn\SyncedFolders\my-note"  # D文件夹软链接路径
 
     notify_system_change(d_folder)
