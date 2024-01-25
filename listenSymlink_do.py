@@ -19,7 +19,7 @@ def rename_symlink(symlink_path):
     # target_folder = os.readlink(symlink_path)
     try:
         directory, filename = os.path.split(symlink_path)
-        tmp =  '1_1'
+        tmp = filename+'_1_1'
         tmp_name = os.path.join(directory, tmp)
         os.rename(symlink_path, tmp_name)
         os.rename(tmp_name,symlink_path)
